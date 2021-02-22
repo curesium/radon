@@ -44,9 +44,10 @@ function sort() {
   }
 }
 
-function run(text) {
+function run(text, graph) {
     const startTime = Date.now()
     print(analyze(text))
+    if (graph === true) { plotData(analyze(text)) }
     sort()
     console.log('Finished in ' + (Date.now() - startTime) + ' miliseconds')
 }
