@@ -15,7 +15,6 @@ function print(input) {
     for (let i = 0; i < characters.length; i++) {
         let character = characters[i].character;
         const frequency = characters[i].frequency;
-        console.log(character)
         if (character === ' ') { character = 'space'; }
         const content = '<tr>' + '<td>' + character + '</td>' + '<td>' + frequency + '</td>' + '</tr>';
         document.querySelector('#print').innerHTML += content;
@@ -46,6 +45,8 @@ function sort() {
 }
 
 function run(text) {
+    const startTime = Date.now()
     print(analyze(text))
     sort()
+    console.log('Finished in ' + (Date.now() - startTime) + ' miliseconds')
 }
