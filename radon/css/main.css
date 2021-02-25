@@ -37,3 +37,20 @@ a.source {
 
   margin: 0px;
 }
+
+/* Input modal */
+
+#inputModal {
+    display: none;
+    width: 80%;
+    margin: auto;
+    align-content: center;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+textarea#input {
+    width: 100%;
+    height: 100%;
+    resize: vertical;
+}
