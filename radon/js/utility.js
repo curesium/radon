@@ -8,21 +8,27 @@ function print(input) {
                 'frequency': obj[keys[i]]
             });
        };
+       radon.session.seperate = Date.now();
+       console.log('RADON:   Completed seperation objects (' + (radon.session.seperate - radon.session.analyze) + ' miliseconds)')
        return result;  
     };
     const characters = separateObject(input)
+    let printable = "<tr><th>Letter</th><th>Frequency</th></tr>"
     
     for (let i = 0; i < characters.length; i++) {
         let character = characters[i].character;
         const frequency = characters[i].frequency;
         if (character === ' ') { character = 'space'; }
         const content = '<tr>' + '<td>' + character + '</td>' + '<td>' + frequency + '</td>' + '</tr>';
-        document.querySelector('#print').innerHTML += content;
+        printable += content;
     };
+    document.querySelector('#print').innerHTML = printable;
+    radon.session.print = Date.now();
+    console.log('RADON:   Completed printing objects (' + (radon.session.print - radon.session.seperate) + ' miliseconds)')
 };
 
 function sort() {
-    var table, rows, switching, i, x, y, shouldSwitch;
+  var table, rows, switching, i, x, y, shouldSwitch;
   table = document.querySelector('#print');
   switching = true;
   while (switching) {
@@ -42,12 +48,25 @@ function sort() {
       switching = true;
     }
   }
+  radon.session.sort = Date.now();
+  console.log('RADON:   Completed sorting objects (' + (radon.session.sort - radon.session.print) + ' miliseconds)')
+}
+
+function clear() {
+  table = document.querySelector('#print');
+  if (table.innerHTML !== '') { table.innerHTML = ""; }
+  radon.session.clear = Date.now();
+  console.log('RADON:   Completed clearing output (' + (radon.session.clear - radon.session.start) + ' miliseconds)')
 }
 
 function run(text, graph) {
-    const startTime = Date.now()
-    print(analyze(text))
-    if (graph === true) { plotData(analyze(text)) }
-    sort()
-    console.log('Finished in ' + (Date.now() - startTime) + ' miliseconds')
-}
+  if (text === '') { throw new Error('No input given')}
+    radon.session.start = Date.now()
+    clear();
+    const analasis = analyze(text, true);
+    print(analasis);
+    if (graph === true) { plotData(analasis) };
+    sort();
+    radon.session.end = Date.now();
+    console.log('RADON:   Finished in ' + (radon.session.end - radon.session.start) + ' miliseconds');
+};
